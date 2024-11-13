@@ -1,7 +1,7 @@
 window.onload=function(){
     const canva=document.getElementById("miCanvas");
     let ctx=canva.getContext("2d");
-    let xIzquierda, xDerecha, xArriba;
+    let xIzquierda, xDerecha, xEspacio, xArriba, xZeta;
     let x=225;
     let y=759;
     let imagen=new Image();
@@ -19,11 +19,11 @@ window.onload=function(){
 
         this.velocidad=3;
         this.tamanioX=30;
-        this.tamanioY=60;
+        this.tamanioY=41;
         this.imagen=imagen;
 
         this.spriteDerecha=[[7,1],[38,1],[68,1],[101,1],[135,1],[165,1],[197,1],[230,1],[266,1]];
-        this.spriteIzquierda=[[2,45],[33,45],[68,47],[104,47],[137,47],[166,47],[199,47],[232,47],[262,47]];
+        this.spriteIzquierda=[[2,45],[33,45],[70,47],[104,47],[137,47],[166,47],[199,47],[232,47],[262,47]];
         this.animacionPersonaje=this.spriteDerecha;
     }
 
@@ -58,9 +58,16 @@ window.onload=function(){
                 xDerecha=true;
                 break;
             
+            case 32:
+                xEspacio=true;
+                break;
+
             case 38:
                 xArriba=true;
                 break;
+            case 90:
+                xZeta=true;
+                break;       
         }
     }
 
@@ -74,8 +81,14 @@ window.onload=function(){
                 xDerecha=false;
                 break;
 
+            case 32:
+                xEspacio=false;
+                break;
             case 38:
                 xArriba=false;
+                break;
+            case 90:
+                xZeta=true;
                 break;
         }
     }
@@ -88,22 +101,24 @@ window.onload=function(){
         else if(xIzquierda){ 
             protagonista.animacionPersonaje=protagonista.spriteIzquierda;
             posicion=(posicion+1)%9;
+        }else{posicion=0};
+        if(enAire){
+            posicion=2;
         }
-        else{posicion=0};
+        
     }
-
-
 
     function generarPersonaje(){
         ctx.clearRect(0,0,450,800);
 
         if(xIzquierda){
             protagonista.andarIzquierda();
+            
         }
         if(xDerecha){
             protagonista.andarDerecha();
         }
-        if(xArriba){
+        if(xEspacio){
             protagonista.salto();
         }
         if(enAire){
@@ -132,7 +147,7 @@ window.onload=function(){
     document.addEventListener("keyup",desactivaMovimiento,false);
     document.addEventListener("keydown",activarMovimiento,false);
 
-    id1=setInterval(generarPersonaje,60/10);
-    id2=setInterval(movimiento,60/100)
+    id1=setInterval(generarPersonaje,300/24);
+    id2=setInterval(movimiento,800/24)
 
 }
