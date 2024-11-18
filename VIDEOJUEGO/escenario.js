@@ -1,8 +1,7 @@
     //-------------------------------------------------------------------------------------------------------------------------
     // Funciones para generar las plataformas
     //-------------------------------------------------------------------------------------------------------------------------
-    const canva=document.getElementById("miCanvas");       // Cargamos el canva del HTML
-    const ctx=canva.getContext("2d");                      // Le damos el contexto 2D
+    import{canva, ctx, fondo, musica } from './constantes.js'
     export function pintarPlataformas(){
         //Plataforma 1
         ctx.fillStyle='green';
@@ -10,11 +9,11 @@
 
         //Plataforma 2
         ctx.fillStyle='green';
-        ctx.fillRect(0,618,90,4);
+        ctx.fillRect(359,618,90,4);
 
         //Plataforma 3
-        ctx.fillStyle='green';
-        ctx.fillRect(359,618,90,4);
+        ctx.fillStyle="green";
+        ctx.fillRect(0,618,90,4);
 
         //Plataforma 4
         ctx.fillStyle='green';
