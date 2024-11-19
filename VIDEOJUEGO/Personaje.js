@@ -10,15 +10,17 @@ export function Personaje(x_, y_){
 
     this.velocidad=3; // Velocidad a la que se moverá, es la cantidad restada a X
     this.tamanioX=26; // Tamaño X e Y del sprite
-    this.tamanioY=41;
+    this.tamanioY=38;
     this.enAire=false; // Variable que detectará si el personaje se encuentra en el aire
     this.gravedad=0.5; // Variable que determina la gravedad, es la cantidad de Y que se restará en la caída del salto
     this.velSalto=0;   // Variable que servirá para elevar al personaje   
     this.direccion='izquierda'; // Variable que define hacia donde está mirando o hacia donde miró por última vez
     this.posicion=0;   // Variable posición para intercalar las animaciones
+    this.enPlataforma=false;
 
 
     // Array que contiene todos los Sprites en forma de objeto Image junto con sus coordenadas
+
     this.sprites = [
         { src: 'assets/depieDerecha.png', coor: [[7, 2], [42, 2], [78, 2], [110, 2], [143, 2], [177, 2]] },//---> 0 - De pie mirando hacia la derecha
         { src: 'assets/depieIzda.png', coor: [[10, 1], [45, 1], [78, 1], [110, 1], [145, 1], [180, 1]] }, // ---> 1 - De pie mirando hacia la izquierda
@@ -31,10 +33,12 @@ export function Personaje(x_, y_){
         { src: 'assets/saltoIzda.png', coor: [[1, 1]] },// -----------------------------------------------------> 8 - Salto hacia la izquierda
         { src: 'assets/saltoArriba.png', coor: [[2, 4]] }, // --------------------------------------------------> 9 - Mirar hacia arriba saltando
         { src: 'assets/arribaHaciaDerecha.png', coor: [[2,6],[30,6],[56,6],[86,6],[113,6],[139,6]]}, //---------> 10 - Caminando derecha mirando arriba
-        { src: 'assets/arribaHaciaIzda.png', coor: [[2,3],[32,3],[58,3],[84,3],[111,3],[140,3]]} // ------------> 11 - Caminando izda mirando arriba
+        { src: 'assets/arribaHaciaIzda.png', coor: [[2,3],[32,3],[58,3],[84,3],[111,3],[140,3]]}, // -----------> 11 - Caminando izda mirando arriba
+        { src: 'assets/saltoAbajo.png', coor:[[2,1]]} //--------------------------------------------------------> 12 - Saltando mirando hacia abajo
     ];
     
     // Creo una nueva propiedad a cada elemento del array con el objeto imagen con los sprites cargados
+    
     this.sprites.forEach(sprite => {
         const img = new Image();
         img.src = sprite.src;
@@ -68,7 +72,7 @@ export function Personaje(x_, y_){
 
     Personaje.prototype.salto=function(){
         if(!this.enAire){      // Comprueba si no está en el aire ya que no queremos más de 1 salto
-            this.enAire=true;  // Pasamos el estado del personaje a EnAire
+            this.enAire=true;  // Pasamos el estado del personaje a enAire
             this.velSalto=-13; // Cantidad que se restará a la Y que hará ascender al personaje
         }
     }

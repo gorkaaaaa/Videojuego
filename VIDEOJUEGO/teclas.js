@@ -1,4 +1,4 @@
-export let xIzquierda, xDerecha, xEspacio, xArriba, xZeta; // Variables para detección de teclas
+export let xIzquierda, xDerecha, xEspacio, xArriba, xAbajo, xZeta; // Variables para detección de teclas
 
 //-------------------------------------------------------------------------------------------------------------------------
 // Funciones de pulsación de teclas
@@ -11,6 +11,7 @@ export function activarMovimiento(evt) {
         case 39: xDerecha = true; break;
         case 32: xEspacio = true; break;
         case 38: xArriba = true; break;
+        case 40: xAbajo = true; break;
         case 90: xZeta = true; break;
     }
 }
@@ -23,6 +24,7 @@ export function desactivarMovimiento(evt) {
         case 39: xDerecha = false; break;
         case 32: xEspacio = false; break;
         case 38: xArriba = false; break;
+        case 40: xAbajo = false; break;
         case 90: xZeta = false; break;
     }
 }

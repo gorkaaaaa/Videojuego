@@ -1,7 +1,7 @@
 //-------------------------------------------------------------------------------------------------------------------------
 // Function que controla las animaciones
 //-------------------------------------------------------------------------------------------------------------------------
-import{xArriba,xDerecha,xIzquierda,xZeta} from './teclas.js'
+import{xAbajo, xArriba,xDerecha,xEspacio,xIzquierda,xZeta} from './teclas.js'
 
 export function animaciones(prota){
 
@@ -64,8 +64,8 @@ export function animaciones(prota){
     // Animaciones en el aire
     //-----------------------------------------------------------------------------------
     
-    if(prota.enAire){ //Comprobará si estamos en el aire y mirando derecha/izda/arriba y le asociará el sprite correspondiente
-        if(prota.direccion==='derecha'){
+    if(xEspacio){ //Comprobará si estamos en el aire y mirando derecha/izda/arriba y le asociará el sprite correspondiente
+        if(prota.direccion==='derecha' && prota.enAire){
             prota.animacionPersonaje=prota.sprites[7].image;
             prota.animacionPersonajeCoor=prota.sprites[7].coor;
         }else if(prota.direccion==='izquierda'){
@@ -75,8 +75,11 @@ export function animaciones(prota){
         if(xArriba){
             prota.animacionPersonaje=prota.sprites[9].image;
             prota.animacionPersonajeCoor=prota.sprites[9].coor;
+        }else if(xAbajo){
+            prota.animacionPersonaje=prota.sprites[12].image;
+            prota.animacionPersonajeCoor=prota.sprites[12].coor;
         }
-        prota.posicion=0;
+        prota.posicion=0; // No es necesario iterar en los sprites del aire puesto que sólo son 1
     }
 
     //-----------------------------------------------------------------------------------
@@ -96,6 +99,10 @@ export function animaciones(prota){
         if(xArriba){
             prota.animacionPersonaje=prota.sprites[9].image;
             prota.animacionPersonajeCoor=prota.sprites[9].coor;
+            prota.posicion=0;
+        }else if(xAbajo){
+            prota.animacionPersonaje=prota.sprites[12].image;
+            prota.animacionPersonajeCoor=prota.sprites[12].coor;
             prota.posicion=0;
         }
     }
