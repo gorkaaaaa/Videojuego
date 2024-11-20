@@ -25,7 +25,7 @@ export function Personaje(x_, y_){
         { src: 'assets/depieDerecha.png', coor: [[7, 2], [42, 2], [78, 2], [110, 2], [143, 2], [177, 2]] },//---> 0 - De pie mirando hacia la derecha
         { src: 'assets/depieIzda.png', coor: [[10, 1], [45, 1], [78, 1], [110, 1], [145, 1], [180, 1]] }, // ---> 1 - De pie mirando hacia la izquierda
         { src: 'assets/arriba.png', coor: [[2, 1]] }, //--------------------------------------------------------> 2 - Mirar hacia arriba
-        { src: 'assets/HaciaDerecha.png', coor: [[1, 1], [29, 1], [55, 1], [86, 1], [112, 1], [138, 1]] },//----> 3 - Caminando hacia la derecha
+        { src: 'assets/haciaDerecha.png', coor: [[1, 1], [29, 1], [55, 1], [86, 1], [112, 1], [138, 1]] },//----> 3 - Caminando hacia la derecha
         { src: 'assets/haciaIzda.png', coor: [[1, 2], [31, 2], [57, 2], [85, 2], [112, 2], [140, 2]] },//-------> 4 - Caminando hacia la izquierda
         { src: 'assets/disparoDerecha.png', coor: [[3, 1], [35, 1]] },//----------------------------------------> 5 - Disparo hacia la derecha
         { src: 'assets/disparoIzda.png', coor: [[2, 1], [34,1]]},//---------------------------------------------> 6 - Disparo hacia la izquierda
