@@ -7,7 +7,7 @@
 
     export let plataformasArray=[
         {fillStyle: 'rgba(0,0,0,0)', coord:[140,661,190,4]}, //---> Plataforma 1
-        {fillStyle: 'green', coord:[359,618,90,4]}, //----> Plataforma 2
+        {fillStyle: 'rgba(0,0,0,0)', coord:[359,618,90,4]}, //----> Plataforma 2
         {fillStyle: 'green', coord:[0,618,90,4]}, //------> Plataforma 3
         {fillStyle: 'green', coord:[176,535,110,4]}, //---> Plataforma 4
         {fillStyle: 'green', coord:[0,490,50,4]}, //------> Plataforma 5

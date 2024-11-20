@@ -16,7 +16,7 @@ export function Personaje(x_, y_){
     this.velSalto=0;   // Variable que servirá para elevar al personaje   
     this.direccion='izquierda'; // Variable que define hacia donde está mirando o hacia donde miró por última vez
     this.posicion=0;   // Variable posición para intercalar las animaciones
-    this.enPlataforma=false;
+
 
 
     // Array que contiene todos los Sprites en forma de objeto Image junto con sus coordenadas

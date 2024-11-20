@@ -8,15 +8,16 @@ export function Enemigo(){
 
     // Atributos con el mismo proposito que los de la clase personaje
 
-    this.x=225;
-    this.y=765;
-    this.velocidad=3;
+    this.x=105;
+    this.y=20;
+    this.velocidad=2;
     this.tamanioY=39;
     this.tamanioX=33;
     this.enAire=false;
     this.gravedad=0.5;
     this.direccion='derecha' // Dirección a la que quiero que se dirija el enemigo
     this.posicion=0;
+    this.velCaida=0;
 
     this.sprites=[
         { src: 'assets/enemigoDerecha.png', coor:[[7,2],[52,2],[102,2],[155,2],[206,2],[250,2]]}, // Sprite andando hacia la derecha

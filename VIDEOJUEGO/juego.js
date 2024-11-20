@@ -15,10 +15,9 @@ window.onload=function(){
     //Function para generar las coplisiones con las plataformas
     //-------------------------------------------------------------------------------------------------------------------------
 
-    function colisionPlataformas(prota){
+    function colisionPlataformas(prota,enem){
         let colision=false; // Variable que determina si se está colisionando
-        prota.enPlataforma=false; // Variable que determina si el personaje está encima de una plataforma
-
+        let enemigoColision=false;
         plataformasArray.forEach(plataforma=>{ // Comprobación con un for each con cada plataforma 
 
             // Variables de la hitbox de la plataforma
@@ -35,36 +34,52 @@ window.onload=function(){
             let protaArrib=prota.y;
             let protaAbaj=prota.y+prota.tamanioY;
 
+            // Variables de la hitbox del enemigo
+
+            let enemIzda=enem.x;
+            let enemDer=enem.x+enem.tamanioX;
+            let enemArrib=enem.y;
+            let enemAbaj=enem.y+enem.tamanioY;
+
             // Comprobamos si el personaje está tocando la plataforma por los pies (colisión en la parte inferior)
 
             if (protaDer > platIzda && protaIzda < platDer && protaAbaj <= platArrib && protaAbaj + prota.velSalto > platArrib) {
-                prota.enPlataforma = true; // El personaje está sobre la plataforma
                 colision = true;
-
                 prota.y = platArrib - prota.tamanioY;  // Ajustamos la posición para que quede justo encima de la plataforma
                 prota.velSalto = 0;  // Detenemos el salto ya que el personaje ha tocado el suelo
                 prota.enAire=false;
             }
             if(!colision && prota.y!=765){ // Si no está haciendo colisión con ninguna platafora y si no está en el suelo
-                prota.enPlataforma=false;  // El personaje deja de estar sobre la plataforma
                 prota.enAire=true;         // Volvemos al aire y se le aplicará la gravedad
             }
+
+
+
+            if (enemDer > platIzda && enemIzda < platDer && enemAbaj <= platArrib && enemAbaj + enem.velCaida > platArrib){
+                enemigoColision=true;
+                enem.enAire=false;
+                enem.y=platArrib-enem.tamanioY;
+                enem.velCaida=0;
+            }
+            if(!enemigoColision && enem.y!=765 ){
+                enem.enAire=true;
+            }
         });
-        return colision;
+        return enemigoColision;
     }
 
     //-------------------------------------------------------------------------------------------------------------------------
     //Function para generar el personaje
     //-------------------------------------------------------------------------------------------------------------------------
 
-    function generarProta(){
+    function generarPartida(){
 
         ctx.clearRect(0,0,450,800);        // Limpiamos el canva
         ctx.drawImage(fondo, 0,0,450,800); // Le ponemos fondo al canva
 
         if(xIzquierda) prota.moverIzda(); // En caso de estar pulsando la tecla izquierda ejecutará la funcion correspondiente
         if(xDerecha) prota.moverDerecha();// Lo mismo con la izda
-        if(xEspacio && (!prota.enAire || prota.enPlataforma)) prota.salto();// Y compruebo si se pulsa espacio, si no esté en el aire o si está en una plataforma
+        if(xEspacio) prota.salto();// Y compruebo si se pulsa espacio, si no esté en el aire o si está en una plataforma
 
         //Función que realizará el salto
 
@@ -80,11 +95,24 @@ window.onload=function(){
             }
         }
         
+        if(enemigo.enAire){
+            enemigo.y+=enemigo.velCaida;
+            enemigo.velCaida+=enemigo.gravedad;
+            if(enemigo.y>=765){
+                enemigo.y=765;
+                enemigo.enAire=false;
+                enemigo.velCaida=0;
+            }
+        }
+        
+        
         //Dibujamos las plataformas
         plataformas();
 
-        if(colisionPlataformas(prota)){
+        if(colisionPlataformas(prota, enemigo)){
             console.log("colisionn");
+        }else{
+            console.log("nocolision")
         }
         
         // Dibujamos al personaje
@@ -103,7 +131,7 @@ window.onload=function(){
     document.addEventListener("keyup",desactivarMovimiento,false); // Manejador de eventos que registra si se ha dejado de pulsar la tecla
     document.addEventListener("keydown",activarMovimiento,false); // Manejador de eventos que registra si se ha pulsado una tecla
 
-    setInterval(generarProta, 300/24); // Intervalos que ejecutará la función que genera el personaje y los sprites
+    setInterval(generarPartida, 300/24); // Intervalos que ejecutará la función que genera el personaje y los sprites
     setInterval(()=>{animaciones(prota);},800/24);
 
 }
