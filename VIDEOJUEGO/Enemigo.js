@@ -17,7 +17,7 @@ export function Enemigo(){
     this.gravedad=0.5;
     this.direccion='derecha' // Dirección a la que quiero que se dirija el enemigo
     this.posicion=0;
-    this.velCaida=0;
+    this.velCaida=0; // Velocidad inicial de la caida del enemigo
 
     this.sprites=[
         { src: 'assets/enemigoDerecha.png', coor:[[7,2],[52,2],[102,2],[155,2],[206,2],[250,2]]}, // Sprite andando hacia la derecha

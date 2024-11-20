@@ -16,6 +16,7 @@ export function Personaje(x_, y_){
     this.velSalto=0;   // Variable que servirá para elevar al personaje   
     this.direccion='izquierda'; // Variable que define hacia donde está mirando o hacia donde miró por última vez
     this.posicion=0;   // Variable posición para intercalar las animaciones
+    this.miraArriba=false;
 
 
 
@@ -77,7 +78,7 @@ export function Personaje(x_, y_){
         }
     }
 
-    //Método que dibuja al personaje
+    // Método que dibuja al personaje
 
     Personaje.prototype.dibujarProta=function(){
         ctx.drawImage(
@@ -90,6 +91,10 @@ export function Personaje(x_, y_){
             this.y,                                   // Posición Y del personaje en el canva
             this.tamanioX,                            // Tamaño X del personaje
             this.tamanioY);                           // Tamaño Y del personaje
+    }
+
+    Personaje.prototype.disparar=function(){
+        
     }
 
 

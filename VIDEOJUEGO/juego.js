@@ -1,9 +1,12 @@
-import { canva, ctx, fondo, musica } from './constantes.js'
-import { plataformas,plataformasArray } from './escenario.js';
+import { canva, ctx, fondo, musica } from './constantes.js';
+import { plataformas, plataformasArray } from './escenario.js';
 import { Personaje } from './Personaje.js';
 import { Enemigo } from './Enemigo.js';
 import { animaciones } from './animaciones.js';
-import { xArriba,xDerecha,xEspacio,xIzquierda,xZeta,activarMovimiento,desactivarMovimiento } from './teclas.js';
+import { xArriba,xDerecha,xEspacio,xIzquierda,activarMovimiento,desactivarMovimiento, activarDisparo } from './teclas.js';
+import { Disparo } from './Disparo.js';
+import { colisionPlataformas } from './colisiones.js';
+ 
 
 window.onload=function(){
 
@@ -12,64 +15,63 @@ window.onload=function(){
     const enemigo=new Enemigo();    // Creación del objeto enemigo
 
     //-------------------------------------------------------------------------------------------------------------------------
-    //Function para generar las coplisiones con las plataformas
+    //Function para generar el disparo
     //-------------------------------------------------------------------------------------------------------------------------
 
-    function colisionPlataformas(prota,enem){
-        let colision=false; // Variable que determina si se está colisionando
-        let enemigoColision=false;
-        plataformasArray.forEach(plataforma=>{ // Comprobación con un for each con cada plataforma 
+    let disparo;
+    let arrayDisparos=[]; // Creo el array que contendrá los disparos
+    
+    // Function que genera el disparo
 
-            // Variables de la hitbox de la plataforma
+    function disparar(){
+        disparo=new Disparo(prota.x,prota.y,prota.direccion);
+        console.log(disparo);
+        if(xArriba) disparo.arriba=true; // En caso de que se esté pulsando la tecla arriba
 
-            let platIzda=plataforma.coord[0];
-            let platDer=plataforma.coord[0]+plataforma.coord[2];
-            let platArrib=plataforma.coord[1];
-            let platAbaj=plataforma.coord[1]+plataforma.coord[3];
-
-            // Variables de la hitbox del personaje
-
-            let protaIzda=prota.x;
-            let protaDer=prota.x+prota.tamanioX;
-            let protaArrib=prota.y;
-            let protaAbaj=prota.y+prota.tamanioY;
-
-            // Variables de la hitbox del enemigo
-
-            let enemIzda=enem.x;
-            let enemDer=enem.x+enem.tamanioX;
-            let enemArrib=enem.y;
-            let enemAbaj=enem.y+enem.tamanioY;
-
-            // Comprobamos si el personaje está tocando la plataforma por los pies (colisión en la parte inferior)
-
-            if (protaDer > platIzda && protaIzda < platDer && protaAbaj <= platArrib && protaAbaj + prota.velSalto > platArrib) {
-                colision = true;
-                prota.y = platArrib - prota.tamanioY;  // Ajustamos la posición para que quede justo encima de la plataforma
-                prota.velSalto = 0;  // Detenemos el salto ya que el personaje ha tocado el suelo
-                prota.enAire=false;
-            }
-            if(!colision && prota.y!=765){ // Si no está haciendo colisión con ninguna platafora y si no está en el suelo
-                prota.enAire=true;         // Volvemos al aire y se le aplicará la gravedad
-            }
-
-
-
-            if (enemDer > platIzda && enemIzda < platDer && enemAbaj <= platArrib && enemAbaj + enem.velCaida > platArrib){
-                enemigoColision=true;
-                enem.enAire=false;
-                enem.y=platArrib-enem.tamanioY;
-                enem.velCaida=0;
-            }
-            if(!enemigoColision && enem.y!=765 ){
-                enem.enAire=true;
-            }
-        });
-        return enemigoColision;
+        disparo.dibujarDisparo(ctx);
+        arrayDisparos.push(disparo); // Meto en el array el disparo
     }
 
+    // Function que moverá el disparo
+
+    function mueveDisparos(){
+        for (let index = 0; index < arrayDisparos.length; index++) {
+
+            arrayDisparos[index].dibujarDisparo(ctx); // Por cada elemento en el array dibujará el disparo
+
+            if(arrayDisparos[index].arriba){          // Si hemos pulsado la tecla arriba invocará el método para moverla hacia arriba
+                arrayDisparos[index].moverArriba();
+
+                if(arrayDisparos[index].limite()){    // En caso de que se encuentre en los límites lo eliminará del array
+                    arrayDisparos.splice(index,1);
+                    console.log(arrayDisparos)
+                }
+            }
+
+            else if(arrayDisparos[index].direccion=='izquierda'){ // Lo mismo pero con izda y derecha
+                arrayDisparos[index].moverIzda();
+
+                if(arrayDisparos[index].limite()){
+                    arrayDisparos.splice(index,1);
+                    console.log(arrayDisparos)
+                }
+            }
+
+            else if(arrayDisparos[index].direccion=='derecha'){
+                arrayDisparos[index].moverDer();
+
+                if(arrayDisparos[index].limite()){
+                    arrayDisparos.splice(index,1);
+                    console.log(arrayDisparos)
+                }
+            }
+
+        }
+    }
+
+
     //-------------------------------------------------------------------------------------------------------------------------
-    //Function para generar el personaje
+    //Function para generar la partida
     //-------------------------------------------------------------------------------------------------------------------------
 
     function generarPartida(){
@@ -80,9 +82,9 @@ window.onload=function(){
         if(xIzquierda) prota.moverIzda(); // En caso de estar pulsando la tecla izquierda ejecutará la funcion correspondiente
         if(xDerecha) prota.moverDerecha();// Lo mismo con la izda
         if(xEspacio) prota.salto();// Y compruebo si se pulsa espacio, si no esté en el aire o si está en una plataforma
+        mueveDisparos();
 
         //Función que realizará el salto
-
         if(prota.enAire){                  // Comprueba si el personaje está en el aire
 
             prota.y+=prota.velSalto;       // En caso afirmativo le sumará el número -13 por lo que restará y le hará ascender
@@ -94,10 +96,11 @@ window.onload=function(){
                 prota.velSalto=0;          // Y la velocidad del salto a 0
             }
         }
-        
+
+        // Function que hará caer al enemigo, mismo funcionamiento que la de salto
         if(enemigo.enAire){
             enemigo.y+=enemigo.velCaida;
-            enemigo.velCaida+=enemigo.gravedad;
+            enemigo.velCaida+=enemigo.gravedad; 
             if(enemigo.y>=765){
                 enemigo.y=765;
                 enemigo.enAire=false;
@@ -105,20 +108,18 @@ window.onload=function(){
             }
         }
         
-        
-        //Dibujamos las plataformas
+        // Dibujamos las plataformas
         plataformas();
 
-        if(colisionPlataformas(prota, enemigo)){
+        // Generamos las colisiones con las plataformas
+        if(colisionPlataformas(prota, enemigo,plataformasArray )){
             console.log("colisionn");
-        }else{
-            console.log("nocolision")
         }
         
         // Dibujamos al personaje
         prota.dibujarProta();
 
-        //Dibujamos y movemos al enemigo
+        // Dibujamos y movemos al enemigo
         enemigo.dibujarEnemigo();
         enemigo.moverEnemigo();
 
@@ -127,9 +128,16 @@ window.onload=function(){
     //-------------------------------------------------------------------------------------------------------------------------
     // Manejador de eventos y ejecución de intervalos
     //-------------------------------------------------------------------------------------------------------------------------
-
     document.addEventListener("keyup",desactivarMovimiento,false); // Manejador de eventos que registra si se ha dejado de pulsar la tecla
     document.addEventListener("keydown",activarMovimiento,false); // Manejador de eventos que registra si se ha pulsado una tecla
+
+    // Manejador para que al levantar la tecla Z se ejecute un disparo, lo he añadido aquí porque al tener el resto de métodos de tecla
+    // en otro documento no podía hace que la funcion activarDisparo ejecutase disparo(), también he cambiado el evt.keyCode porque aparentemente
+    // está desactualizado y no me funcionaba. De esta manera declaro la función directamente aquí y puedo usar el método disparar() que he declarado 
+    // en este documento sin tener que cambiar toda la estructura del código
+    document.addEventListener("keyup", function(evt){ if(evt.code==="KeyZ") disparar();},false); 
+
+
 
     setInterval(generarPartida, 300/24); // Intervalos que ejecutará la función que genera el personaje y los sprites
     setInterval(()=>{animaciones(prota);},800/24);
