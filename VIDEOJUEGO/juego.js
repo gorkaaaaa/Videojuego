@@ -1,7 +1,7 @@
 import { canva, ctx, fondo, musica } from './constantes.js'
 import { plataformas,plataformasArray } from './escenario.js';
-import { Personaje } from './personaje.js';
-import { Enemigo } from './enemigo.js';
+import { Personaje } from './Personaje.js';
+import { Enemigo } from './Enemigo.js';
 import { animaciones } from './animaciones.js';
 import { xArriba,xDerecha,xEspacio,xIzquierda,xZeta,activarMovimiento,desactivarMovimiento } from './teclas.js';
 
