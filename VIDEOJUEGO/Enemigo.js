@@ -10,7 +10,7 @@ export function Enemigo(){
 
     this.x=105;
     this.y=20;
-    this.velocidad=2;
+    this.velocidad=Math.round(Math.random()*2)+1;
     this.tamanioY=39;
     this.tamanioX=33;
     this.enAire=false;

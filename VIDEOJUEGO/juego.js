@@ -5,14 +5,26 @@ import { Enemigo } from './Enemigo.js';
 import { animaciones } from './animaciones.js';
 import { xArriba,xDerecha,xEspacio,xIzquierda,activarMovimiento,desactivarMovimiento, activarDisparo } from './teclas.js';
 import { Disparo } from './Disparo.js';
-import { colisionPlataformas } from './colisiones.js';
+import { colisionPlataformasEnemigo, colisionPlataformasProta, colisionProtaEnemigo } from './colisiones.js';
  
 
 window.onload=function(){
 
     let x=225, y=765; // Coordenada X e Y en la que aparecerá el prota 
     const prota=new Personaje(x,y); // Creación del objeto prota con las coordenadas de spawn (En el centro abajo del todo)
-    const enemigo=new Enemigo();    // Creación del objeto enemigo
+    let enemigos;    // Creación del objeto enemigo
+    let arrayEnemigos=[];
+    const numEnemigos=5;
+    let enemigo=new Enemigo();
+
+    function generarEnemigos(){
+        for (let index = 0; index < numEnemigos; index++) {
+            const element = array[index];
+            enemigos=new Enemigo();
+            arrayEnemigos.push(enemigos);
+            enemigos.dibujarEnemigo();
+        }
+    }
 
     //-------------------------------------------------------------------------------------------------------------------------
     //Function para generar el disparo
@@ -32,7 +44,7 @@ window.onload=function(){
         arrayDisparos.push(disparo); // Meto en el array el disparo
     }
 
-    // Function que moverá el disparo
+    // Function que moverá el disparo y lo hará desaparecer
 
     function mueveDisparos(){
         for (let index = 0; index < arrayDisparos.length; index++) {
@@ -112,10 +124,9 @@ window.onload=function(){
         plataformas();
 
         // Generamos las colisiones con las plataformas
-        if(colisionPlataformas(prota, enemigo,plataformasArray )){
-            console.log("colisionn");
-        }
-        
+        colisionPlataformasEnemigo(enemigo,plataformasArray);
+        if(colisionPlataformasProta(prota,plataformasArray)) console.log("colision plataforma");
+        if(colisionProtaEnemigo(prota,enemigo)) console.log("colision enemigo");
         // Dibujamos al personaje
         prota.dibujarProta();
 
@@ -140,6 +151,8 @@ window.onload=function(){
 
 
     setInterval(generarPartida, 300/24); // Intervalos que ejecutará la función que genera el personaje y los sprites
-    setInterval(()=>{animaciones(prota);},800/24);
+    setInterval(()=>{
+        animaciones(prota);
+    },800/24);
 
 }

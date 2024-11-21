@@ -8,6 +8,7 @@ export function Disparo(x_,y_, direccion_){ // Recibirá la posición x e y del 
     this.y=y_;
     this.direccion=direccion_;
     this.arriba=false;  // Variable para saber si el disparo se debe mover hacia arriba
+    this.velocidad=8;
 } 
 
 // Function que dibujará el disparo
@@ -25,15 +26,15 @@ Disparo.prototype.dibujarDisparo=function(ctx){
 // Functions de movimiento
 
 Disparo.prototype.moverIzda=function(){
-    this.x=this.x-14
+    this.x-=this.velocidad;
 }
 
 Disparo.prototype.moverDer=function(){
-    this.x=this.x+14
+    this.x+=this.velocidad;
 }
 
 Disparo.prototype.moverArriba=function(){
-    this.y=this.y-14
+    this.y-=this.velocidad;
 }
 
 // Function para saber si la bala ha llegado o no al límite
