@@ -35,7 +35,9 @@ export function Personaje(x_, y_){
         { src: 'assets/saltoArriba.png', coor: [[2, 4]] }, // --------------------------------------------------> 9 - Mirar hacia arriba saltando
         { src: 'assets/arribaHaciaDerecha.png', coor: [[2,6],[30,6],[56,6],[86,6],[113,6],[139,6]]}, //---------> 10 - Caminando derecha mirando arriba
         { src: 'assets/arribaHaciaIzda.png', coor: [[2,3],[32,3],[58,3],[84,3],[111,3],[140,3]]}, // -----------> 11 - Caminando izda mirando arriba
-        { src: 'assets/saltoAbajo.png', coor:[[2,1]]} //--------------------------------------------------------> 12 - Saltando mirando hacia abajo
+        { src: 'assets/saltoAbajo.png', coor:[[2,1]]}, //-------------------------------------------------------> 12 - Saltando mirando hacia abajo
+        { src: 'assets/abajoHaciaDerecha.png', coor:[[0,2],[30,2],[58,2],[85,2],[112,2],[138,2]]}, //-----------> 13 - Caminando derecha mirando abajo
+        { src: 'assets/abajoHaciaIzda.png', coor:[[4,2],[34,2],[59,2],[86,2],[113,2],[142,2]]} // --------------> 14 - Caminando izda mirando abajo
     ];
     
     // Creo una nueva propiedad a cada elemento del array con el objeto imagen con los sprites cargados

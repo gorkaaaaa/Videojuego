@@ -21,7 +21,9 @@ export function animaciones(prota){
         prota.animacionPersonajeCoor=prota.sprites[4].coor;
         prota.posicion=(prota.posicion+1)%6;
 
-    }else{
+    }
+
+    if(xArriba){
 
         if(xArriba && xIzquierda){    // Movimiento izquierda y derecha pero mirando hacia arriba
             prota.direccion='izquierda';
@@ -33,6 +35,22 @@ export function animaciones(prota){
             prota.direccion='derecha'
             prota.animacionPersonaje=prota.sprites[10].image;
             prota.animacionPersonajeCoor=prota.sprites[10].coor;
+            prota.posicion=(prota.posicion+1)%6;
+        }
+    } 
+
+    if(xAbajo){
+
+        if(xAbajo && xIzquierda){
+            prota.direccion='izquierda';
+            prota.animacionPersonaje=prota.sprites[14].image;
+            prota.animacionPersonajeCoor=prota.sprites[14].coor;
+            prota.posicion=(prota.posicion+1)%6;
+
+        }else if(xAbajo && xDerecha){
+            prota.direccion='derecha'
+            prota.animacionPersonaje=prota.sprites[13].image;
+            prota.animacionPersonajeCoor=prota.sprites[13].coor;
             prota.posicion=(prota.posicion+1)%6;
         }
     }
@@ -100,6 +118,7 @@ export function animaciones(prota){
             prota.animacionPersonajeCoor=prota.sprites[6].coor;
             prota.posicion=(prota.posicion+1)%2; 
         }
+        
         if(xArriba){
             prota.animacionPersonaje=prota.sprites[9].image;
             prota.animacionPersonajeCoor=prota.sprites[9].coor;

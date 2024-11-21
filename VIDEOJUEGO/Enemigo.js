@@ -2,15 +2,13 @@
 // Clase enemigo
 //-------------------------------------------------------------------------------------------------------------------------
 
-import { canva, ctx, fondo, musica } from './constantes.js'
-
 export function Enemigo(){
 
     // Atributos con el mismo proposito que los de la clase personaje
 
     this.x=105;
     this.y=20;
-    this.velocidad=Math.round(Math.random()*2)+1;
+    this.velocidad=(Math.random()*1.9)+1.9;
     this.tamanioY=39;
     this.tamanioX=33;
     this.enAire=false;
@@ -59,8 +57,8 @@ Enemigo.prototype.moverEnemigo=function(){
 
 // Function para dibujar al enemigo
 
-Enemigo.prototype.dibujarEnemigo=function(){
-    ctx.drawImage(
+Enemigo.prototype.dibujarEnemigo=function(ctx_){
+    ctx_.drawImage(
         this.animacionEnemigo,                  // Imagen del sprite
         this.animacionEnemigoCoor[this.posicion][0], // Posición X del sprite
         this.animacionEnemigoCoor[this.posicion][1], // Posición Y del sprite
@@ -70,4 +68,10 @@ Enemigo.prototype.dibujarEnemigo=function(){
         this.y,                                   // Posición Y del Enemigo en el canva
         this.tamanioX,                            // Tamaño X del Enemigo
         this.tamanioY);                           // Tamaño Y del Enemigo
+}
+
+Enemigo.prototype.hanLlegado=function(){
+    let final=false;
+    if(this.y>623) final=true;
+    return final;
 }

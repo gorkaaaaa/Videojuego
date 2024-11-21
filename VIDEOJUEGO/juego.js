@@ -1,28 +1,32 @@
-import { canva, ctx, fondo, musica } from './constantes.js';
+import { canva, ctx, fondo, musica,numEnemigos } from './constantes.js';
 import { plataformas, plataformasArray } from './escenario.js';
 import { Personaje } from './Personaje.js';
 import { Enemigo } from './Enemigo.js';
 import { animaciones } from './animaciones.js';
-import { xArriba,xDerecha,xEspacio,xIzquierda,activarMovimiento,desactivarMovimiento, activarDisparo } from './teclas.js';
+import { xArriba,xDerecha,xEspacio,xIzquierda,activarMovimiento,desactivarMovimiento, activarDisparo, xAbajo } from './teclas.js';
 import { Disparo } from './Disparo.js';
-import { colisionPlataformasEnemigo, colisionPlataformasProta, colisionProtaEnemigo } from './colisiones.js';
+import { colisionEnemigoDisparo, colisionPlataformasEnemigo, colisionPlataformasProta, colisionProtaEnemigo } from './colisiones.js';
  
 
 window.onload=function(){
 
     let x=225, y=765; // Coordenada X e Y en la que aparecerá el prota 
     const prota=new Personaje(x,y); // Creación del objeto prota con las coordenadas de spawn (En el centro abajo del todo)
-    let enemigos;    // Creación del objeto enemigo
-    let arrayEnemigos=[];
-    const numEnemigos=5;
-    let enemigo=new Enemigo();
+
+    //-------------------------------------------------------------------------------------------------------------------------
+    //Function para generar los enemigos
+    //-------------------------------------------------------------------------------------------------------------------------
+
+    let enemigos;    
+    let arrayEnemigos=[]; // Creo el array de enemigos
 
     function generarEnemigos(){
-        for (let index = 0; index < numEnemigos; index++) {
-            const element = array[index];
-            enemigos=new Enemigo();
-            arrayEnemigos.push(enemigos);
-            enemigos.dibujarEnemigo();
+        if(arrayEnemigos.length<2){
+            for (let index = 0; index < numEnemigos; index++) {
+                console.log("nuevo enemigo");
+                enemigos=new Enemigo();
+                arrayEnemigos.push(enemigos);
+            }
         }
     }
 
@@ -37,8 +41,8 @@ window.onload=function(){
 
     function disparar(){
         disparo=new Disparo(prota.x,prota.y,prota.direccion);
-        console.log(disparo);
         if(xArriba) disparo.arriba=true; // En caso de que se esté pulsando la tecla arriba
+        if(xAbajo) disparo.abajo=true;   // Lo mismo pero hacia abajo
 
         disparo.dibujarDisparo(ctx);
         arrayDisparos.push(disparo); // Meto en el array el disparo
@@ -56,7 +60,14 @@ window.onload=function(){
 
                 if(arrayDisparos[index].limite()){    // En caso de que se encuentre en los límites lo eliminará del array
                     arrayDisparos.splice(index,1);
-                    console.log(arrayDisparos)
+                }
+            }
+
+            else if(arrayDisparos[index].abajo){          // Si hemos pulsado la tecla abajo invocará el método para moverla hacia abajo
+                arrayDisparos[index].moverAbajo();
+
+                if(arrayDisparos[index].limite()){    // En caso de que se encuentre en los límites lo eliminará del array
+                    arrayDisparos.splice(index,1);
                 }
             }
 
@@ -65,7 +76,6 @@ window.onload=function(){
 
                 if(arrayDisparos[index].limite()){
                     arrayDisparos.splice(index,1);
-                    console.log(arrayDisparos)
                 }
             }
 
@@ -74,7 +84,6 @@ window.onload=function(){
 
                 if(arrayDisparos[index].limite()){
                     arrayDisparos.splice(index,1);
-                    console.log(arrayDisparos)
                 }
             }
 
@@ -109,30 +118,46 @@ window.onload=function(){
             }
         }
 
-        // Function que hará caer al enemigo, mismo funcionamiento que la de salto
-        if(enemigo.enAire){
-            enemigo.y+=enemigo.velCaida;
-            enemigo.velCaida+=enemigo.gravedad; 
-            if(enemigo.y>=765){
-                enemigo.y=765;
-                enemigo.enAire=false;
-                enemigo.velCaida=0;
-            }
-        }
         
         // Dibujamos las plataformas
         plataformas();
 
         // Generamos las colisiones con las plataformas
-        colisionPlataformasEnemigo(enemigo,plataformasArray);
+        
         if(colisionPlataformasProta(prota,plataformasArray)) console.log("colision plataforma");
-        if(colisionProtaEnemigo(prota,enemigo)) console.log("colision enemigo");
         // Dibujamos al personaje
         prota.dibujarProta();
 
         // Dibujamos y movemos al enemigo
-        enemigo.dibujarEnemigo();
-        enemigo.moverEnemigo();
+        generarEnemigos();
+        arrayEnemigos.forEach((enemigo,i) => {
+            enemigo.dibujarEnemigo(ctx);
+            enemigo.moverEnemigo() ; 
+            colisionPlataformasEnemigo(enemigo,plataformasArray);
+            if(colisionProtaEnemigo(prota,enemigo)) console.log("colision enemigos");
+
+            arrayDisparos.forEach((disparo,j)=>{
+                if(colisionEnemigoDisparo(enemigo, disparo)) {
+                    arrayDisparos.splice(j,1);
+                    arrayEnemigos.splice(i,1);
+                }
+            });
+
+            // Function que hará caer al enemigo, mismo funcionamiento que la de salto
+
+            if(enemigo.enAire){
+                enemigo.y+=enemigo.velCaida;
+                enemigo.velCaida+=enemigo.gravedad; 
+                if(enemigo.y>=765){
+                    enemigo.y=765;
+                    enemigo.enAire=false;
+                    enemigo.velCaida=0;
+                }
+            }
+
+            if(enemigo.hanLlegado()) arrayEnemigos.splice(i,1);
+        });
+        
 
     }
 
@@ -147,8 +172,6 @@ window.onload=function(){
     // está desactualizado y no me funcionaba. De esta manera declaro la función directamente aquí y puedo usar el método disparar() que he declarado 
     // en este documento sin tener que cambiar toda la estructura del código
     document.addEventListener("keyup", function(evt){ if(evt.code==="KeyZ") disparar();},false); 
-
-
 
     setInterval(generarPartida, 300/24); // Intervalos que ejecutará la función que genera el personaje y los sprites
     setInterval(()=>{

@@ -98,11 +98,33 @@ export function colisionProtaEnemigo(prota, enem){
     let enemArrib=enem.y;
     let enemAbaj=enem.y+enem.tamanioY;
 
-    if(protaDer>enemIzda && protaIzda<enemDer && protaArrib> enemAbaj && protaArrib<enemAbaj){
+    if(protaDer>enemIzda && protaIzda<enemDer && protaAbaj>enemArrib && protaArrib<enemAbaj){
         colision=true;
     }
 
 
     return colision;
+}
+
+export function colisionEnemigoDisparo(enem,disparo){
+    let colision=false;
+
+        // Variables de la hitbox del enemigo
+
+        let enemIzda=enem.x;
+        let enemDer=enem.x+enem.tamanioX;
+        let enemArrib=enem.y;
+        let enemAbaj=enem.y+enem.tamanioY;
+
+        // Variables de la hitbox de la disparo
+        let disparoIzda=disparo.x;
+        let disparoDer=disparo.x+disparo.tamanioX;
+        let disparoArrib=disparo.y;
+        let disparoAbaj=disparo.y+disparo.tamanioY;
+
+        if(disparoDer>enemIzda && disparoIzda<enemDer && disparoAbaj>enemArrib && disparoArrib<enemAbaj){
+            colision=true;
+        }
+        return colision;
 }
 
