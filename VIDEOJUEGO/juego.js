@@ -17,7 +17,6 @@ window.onload=function(){
     let ctx;   // Variable donde le daremos el contexto 2D
     let fondo=new Image(); fondo.src='assets/plantilla.png'; // Creo un objeto Image con el fondo
     let musica=new Audio('assets/musica.mp3');               // Creo el objeto audio para la música de fondo
-    musica.loop=true; musica.play(); musica.volume=0.2;      // La pongo en loop, le bajo el volumen y la reproduzco
 
     const numEnemigos=5; // Nº de enemigos máximos en pantalla
     let vidasnave;  // Cantidad de enemigos que podrán entrar a la nave
@@ -40,6 +39,7 @@ window.onload=function(){
         prota=new Personaje() // Instancio al protagonista con la clase Personaje
         puntuacion=0; // Reiniciamos la puntuación
         vidasnave=10; // Reiniciamos las vidas de la nave
+        musica.loop=true; musica.play(); musica.volume=0.2;      // La pongo en loop, le bajo el volumen y la reproduzco
 
     }
 
@@ -207,6 +207,8 @@ window.onload=function(){
 
         // Comprueba si la nave se queda sin vidas o el protagonista ha muerto
         if(vidasnave<=0 || prota.haMuerto){
+            musica.pause();
+            musica.currentTime=0;
             clearInterval(id1);   // En caso afirmativo para el juego
             boton.disabled=false; // Habilita nuevamente el botón
         }
