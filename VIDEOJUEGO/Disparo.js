@@ -12,13 +12,24 @@ export function Disparo(x_,y_, direccion_){ // Recibirá la posición x e y del 
     this.arriba=false;  // Variable para saber si el disparo se debe mover hacia arriba
     this.abajo=false;   // Lo mismo pero para abajo
     this.velocidad=8;
+    this.sprite=new Image();
+    this.sprite.src='assets/disparo.png'
 } 
+
+// Sonido del disparo
+
+Disparo.prototype.audio=new Audio("assets/disparoSonido.mp3");
 
 // Function que dibujará el disparo
 
 Disparo.prototype.dibujarDisparo=function(ctx){ 
     ctx.fillStryl= "#ff376"
-    ctx.fillRect(
+    ctx.drawImage(
+        this.sprite,
+        1,
+        1,
+        9,
+        9,
         this.x+8,
         this.y+18,
         this.tamanioX,

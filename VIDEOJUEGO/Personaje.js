@@ -1,12 +1,12 @@
-import{canva, ctx, fondo, musica } from './constantes.js'
+
 
 //-------------------------------------------------------------------------------------------------------------------------
 // Clase Personaje
 //-------------------------------------------------------------------------------------------------------------------------
 
-export function Personaje(x_, y_){
-    this.x=x_; // Establecemos su posición tanto X como Y
-    this.y=y_;
+export function Personaje(){
+    this.x=225; // Establecemos su posición tanto X como Y
+    this.y=765;
 
     this.velocidad=3; // Velocidad a la que se moverá, es la cantidad restada a X
     this.tamanioX=26; // Tamaño X e Y del sprite
@@ -16,7 +16,8 @@ export function Personaje(x_, y_){
     this.velSalto=0;   // Variable que servirá para elevar al personaje   
     this.direccion='izquierda'; // Variable que define hacia donde está mirando o hacia donde miró por última vez
     this.posicion=0;   // Variable posición para intercalar las animaciones
-    this.miraArriba=false;
+    this.vidas=3;
+    this.invul=false;
 
 
 
@@ -82,7 +83,7 @@ export function Personaje(x_, y_){
 
     // Método que dibuja al personaje
 
-    Personaje.prototype.dibujarProta=function(){
+    Personaje.prototype.dibujarProta=function(ctx){
         ctx.drawImage(
             this.animacionPersonaje,                  // Imagen del sprite
             this.animacionPersonajeCoor[this.posicion][0], // Posición X del sprite

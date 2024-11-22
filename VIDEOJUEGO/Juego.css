@@ -1,0 +1,33 @@
+body{
+    text-align: center;
+    background-image:  url("assets/fondo-pagina.webp");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #000000;
+}
+#juego-boton-enemigos{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px
+}
+#start{
+    width: 180px;
+    height: 70px;
+    cursor: pointer;
+    background-image: url('assets/botonComienzo.png');
+    background-size: contain;
+    margin-bottom: 10px;
+}
+#boton-enemigos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+p{
+    margin: 10px 0;
+    font-size: 14px;
+    color: aliceblue;
+    text-align: center;
+}

@@ -5,19 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Videojuego</title>
     <link rel="icon" href="assets/icono.png">
+    <link rel="stylesheet" href="Juego.css">
     <script type="module" src="juego.js"></script>
     <style>
-        head{
-            background-color: aliceblue;
-        }
-        body{
-            background-color:darkslategray;
-            text-align: center;
-        }
+
     </style>
 </head>
-<body>
-    <img src="assets/logo.png" width="200px" alt="Tetris Armageddon"><br>
-    <canvas id="miCanvas" width="450" height="800" style="border:1px solid #000000;"></canvas>
+<body >
+    
+    <div id="juego-boton-enemigos">
+        <img src="assets/logo.png" width="200px" alt="Alien Hominid">
+        <canvas id="miCanvas" width="450" height="800" style="border:1px solid #000000;"></canvas>
+        <div id="boton-enemigos">
+            <input type="submit" id="start" value="">
+            <p>enemigos</p>
+        </div>
+    </div>
 </body>
 </html>

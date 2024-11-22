@@ -5,10 +5,10 @@
 export function Enemigo(){
 
     // Atributos con el mismo proposito que los de la clase personaje
-
+    //
     this.x=105;
     this.y=20;
-    this.velocidad=(Math.random()*1.9)+1.9;
+    this.velocidad=(Math.random()*1.9)+1; // Velocidad aleatoria para que los enemigos se sientan distintos
     this.tamanioY=39;
     this.tamanioX=33;
     this.enAire=false;
@@ -33,6 +33,10 @@ export function Enemigo(){
     this.animacionEnemigoCoor=this.sprites[0].coor;
     
 }
+
+// Sonido del enemigo al morir
+
+Enemigo.prototype.audio=new Audio("assets/enemigoMorir.mp3");
 
 // Function que moverá al personaje de izquierda a derecha
 

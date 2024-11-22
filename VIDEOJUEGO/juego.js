@@ -1,4 +1,3 @@
-import { canva, ctx, fondo, musica,numEnemigos } from './constantes.js';
 import { plataformas, plataformasArray } from './escenario.js';
 import { Personaje } from './Personaje.js';
 import { Enemigo } from './Enemigo.js';
@@ -6,24 +5,49 @@ import { animaciones } from './animaciones.js';
 import { xArriba,xDerecha,xEspacio,xIzquierda,activarMovimiento,desactivarMovimiento, activarDisparo, xAbajo } from './teclas.js';
 import { Disparo } from './Disparo.js';
 import { colisionEnemigoDisparo, colisionPlataformasEnemigo, colisionPlataformasProta, colisionProtaEnemigo } from './colisiones.js';
- 
+
 
 window.onload=function(){
+    let canva;       
+    let ctx;                      // Le damos el contexto 2D
+    let fondo=new Image(); fondo.src='assets/plantilla.png'; // Creo un objeto Image con el fondo
+    let musica=new Audio('assets/musica.mp3');           // Creo el objeto audio para la música de fondo
+    musica.loop=true; musica.play(); musica.volume=0.2;    // La pongo en loop, le bajo el volumen y la reproduzco
+    const numEnemigos=5;
+    let id1,id2;
+    let arrayEnemigos; // Creo el array de enemigos
+    let arrayDisparos; // Creo el array que contendrá los disparos
+    let prota; 
+    let vidasnave=10; // Cantidad de enemigos que podrán entrar a la nave
+    let disparo; // Variable que contendrá el disparo
 
-    let x=225, y=765; // Coordenada X e Y en la que aparecerá el prota 
-    const prota=new Personaje(x,y); // Creación del objeto prota con las coordenadas de spawn (En el centro abajo del todo)
+    let enemigos;   
+    function iniciarVar(){
+        canva=document.getElementById("miCanvas"); // Cargamos el canva del HTML
+        arrayDisparos=[];  // Declaro el array de disparos
+        arrayEnemigos=[];  // Declaro el array de enemigos
+        prota=new Personaje() // Instancio al protagonista con la clase Personaje
+
+    }
+
+    //-------------------------------------------------------------------------------------------------------------------------
+    //Function para controlar el audio
+    //-------------------------------------------------------------------------------------------------------------------------
+
+    function manejarAudio(audio){
+        audio.currentTime=0;
+        audio.play();
+    }
 
     //-------------------------------------------------------------------------------------------------------------------------
     //Function para generar los enemigos
     //-------------------------------------------------------------------------------------------------------------------------
 
-    let enemigos;    
-    let arrayEnemigos=[]; // Creo el array de enemigos
+
 
     function generarEnemigos(){
         if(arrayEnemigos.length<2){
             for (let index = 0; index < numEnemigos; index++) {
-                console.log("nuevo enemigo");
                 enemigos=new Enemigo();
                 arrayEnemigos.push(enemigos);
             }
@@ -34,9 +58,6 @@ window.onload=function(){
     //Function para generar el disparo
     //-------------------------------------------------------------------------------------------------------------------------
 
-    let disparo;
-    let arrayDisparos=[]; // Creo el array que contendrá los disparos
-    
     // Function que genera el disparo
 
     function disparar(){
@@ -46,6 +67,7 @@ window.onload=function(){
 
         disparo.dibujarDisparo(ctx);
         arrayDisparos.push(disparo); // Meto en el array el disparo
+        manejarAudio(disparo.audio);
     }
 
     // Function que moverá el disparo y lo hará desaparecer
@@ -60,6 +82,7 @@ window.onload=function(){
 
                 if(arrayDisparos[index].limite()){    // En caso de que se encuentre en los límites lo eliminará del array
                     arrayDisparos.splice(index,1);
+                    
                 }
             }
 
@@ -68,6 +91,7 @@ window.onload=function(){
 
                 if(arrayDisparos[index].limite()){    // En caso de que se encuentre en los límites lo eliminará del array
                     arrayDisparos.splice(index,1);
+                    
                 }
             }
 
@@ -76,6 +100,7 @@ window.onload=function(){
 
                 if(arrayDisparos[index].limite()){
                     arrayDisparos.splice(index,1);
+                    
                 }
             }
 
@@ -84,6 +109,7 @@ window.onload=function(){
 
                 if(arrayDisparos[index].limite()){
                     arrayDisparos.splice(index,1);
+                    
                 }
             }
 
@@ -97,6 +123,7 @@ window.onload=function(){
 
     function generarPartida(){
 
+        
         ctx.clearRect(0,0,450,800);        // Limpiamos el canva
         ctx.drawImage(fondo, 0,0,450,800); // Le ponemos fondo al canva
 
@@ -120,26 +147,45 @@ window.onload=function(){
 
         
         // Dibujamos las plataformas
-        plataformas();
+        plataformas(ctx);
 
         // Generamos las colisiones con las plataformas
-        
-        if(colisionPlataformasProta(prota,plataformasArray)) console.log("colision plataforma");
+        colisionPlataformasProta(prota,plataformasArray);
+
         // Dibujamos al personaje
-        prota.dibujarProta();
+        prota.dibujarProta(ctx);
 
         // Dibujamos y movemos al enemigo
         generarEnemigos();
-        arrayEnemigos.forEach((enemigo,i) => {
-            enemigo.dibujarEnemigo(ctx);
-            enemigo.moverEnemigo() ; 
-            colisionPlataformasEnemigo(enemigo,plataformasArray);
-            if(colisionProtaEnemigo(prota,enemigo)) console.log("colision enemigos");
 
+        let tiempoinvul=false; // Variable que nos dirá si el tiempo de invulnerabilidad está activo
+
+        arrayEnemigos.forEach((enemigo,i) => { // Por cada enemigo en el array lo dibujamos y movemos
+            enemigo.dibujarEnemigo(ctx); 
+            enemigo.moverEnemigo() ; 
+            colisionPlataformasEnemigo(enemigo,plataformasArray); // También generamos su colisiones con las plataformas
+
+            if(!tiempoinvul && !prota.invul && colisionProtaEnemigo(prota,enemigo)){ // Comprueba que el prota no sea invulnerable y que colisione con el enemigo
+                prota.vidas-=1; // Le quita una vida
+                console.log(prota.vidas);
+                prota.invul=true; // Lo convierte en invulnerable
+                tiempoinvul=true; // Comienza el tiempo de invulnerabilidad
+                console.log("comienzo de invul");
+                
+
+            }else if(tiempoinvul){                // Comprueba que haya comenzado el tiempo de invul
+                setTimeout(() => {                // en caso afirmativo ignorará las colisiones durante 1,5 segundos
+                    tiempoinvul=false;            // Al terminar pondremos a false las variables de tiempo de invul y la invulnerabilidad del prota
+                    prota.invul=false;
+                    console.log("fin de invul");
+                }, (2000));
+
+            }
             arrayDisparos.forEach((disparo,j)=>{
                 if(colisionEnemigoDisparo(enemigo, disparo)) {
                     arrayDisparos.splice(j,1);
                     arrayEnemigos.splice(i,1);
+                    manejarAudio(enemigo.audio);
                 }
             });
 
@@ -155,15 +201,29 @@ window.onload=function(){
                 }
             }
 
-            if(enemigo.hanLlegado()) arrayEnemigos.splice(i,1);
+            if(enemigo.hanLlegado()){
+                arrayEnemigos.splice(i,1); 
+                vidasnave-=1; 
+                console.log(vidasnave)// En caso de haber llegado al ovni, desaparecerán 
+
+            }
         });
-        
+
+        if(vidasnave<=0 || prota.vidas<=0){
+            clearInterval(id1)
+            boton.disabled=false;
+        }
 
     }
 
+    function iniciarPartida() {
     //-------------------------------------------------------------------------------------------------------------------------
-    // Manejador de eventos y ejecución de intervalos
+    // Manejador de eventos, ejecución de intervalos y botón
     //-------------------------------------------------------------------------------------------------------------------------
+    clearInterval(id1);
+    clearInterval(id2);
+    iniciarVar();
+    ctx=canva.getContext("2d");
     document.addEventListener("keyup",desactivarMovimiento,false); // Manejador de eventos que registra si se ha dejado de pulsar la tecla
     document.addEventListener("keydown",activarMovimiento,false); // Manejador de eventos que registra si se ha pulsado una tecla
 
@@ -171,11 +231,20 @@ window.onload=function(){
     // en otro documento no podía hace que la funcion activarDisparo ejecutase disparo(), también he cambiado el evt.keyCode porque aparentemente
     // está desactualizado y no me funcionaba. De esta manera declaro la función directamente aquí y puedo usar el método disparar() que he declarado 
     // en este documento sin tener que cambiar toda la estructura del código
-    document.addEventListener("keyup", function(evt){ if(evt.code==="KeyZ") disparar();},false); 
+    document.addEventListener("keyup", function(evt){ if(evt.code==="KeyZ") disparar();},false);
 
-    setInterval(generarPartida, 300/24); // Intervalos que ejecutará la función que genera el personaje y los sprites
-    setInterval(()=>{
+    boton.disabled=true; // Deshabilitamos el botón
+
+    id1=setInterval(generarPartida, 300/24); // Intervalos que ejecutará la función que genera el personaje y los sprites
+    id2=setInterval(()=>{
         animaciones(prota);
     },800/24);
+    }
+
+
+
+
+    let boton=document.getElementById("start");
+    boton.onclick=iniciarPartida;
 
 }
