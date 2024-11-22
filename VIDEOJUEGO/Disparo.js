@@ -66,7 +66,3 @@ Disparo.prototype.limite=function(){
 
     return limite;
 }
-
-Disparo.prototype.diparar=function(){
-
-}

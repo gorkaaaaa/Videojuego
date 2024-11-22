@@ -1,5 +1,3 @@
-
-
 //-------------------------------------------------------------------------------------------------------------------------
 // Clase Personaje
 //-------------------------------------------------------------------------------------------------------------------------
@@ -15,11 +13,8 @@ export function Personaje(){
     this.gravedad=0.5; // Variable que determina la gravedad, es la cantidad de Y que se restará en la caída del salto
     this.velSalto=0;   // Variable que servirá para elevar al personaje   
     this.direccion='izquierda'; // Variable que define hacia donde está mirando o hacia donde miró por última vez
-    this.posicion=0;   // Variable posición para intercalar las animaciones
-    this.vidas=3;
-    this.invul=false;
-
-
+    this.posicion=0;     // Variable posición para intercalar las animaciones
+    this.haMuerto=false; // Variable que indica si nuestro personaje está vivo o no
 
     // Array que contiene todos los Sprites en forma de objeto Image junto con sus coordenadas
 
@@ -49,8 +44,8 @@ export function Personaje(){
         sprite.image = img;
     });
 
-    this.animacionPersonaje=this.sprites[1].image; // Establezco el sprite mirando hacia la derecha por defecto
-    this.animacionPersonajeCoor=this.sprites[1].coor;
+    this.animacionPersonaje=this.sprites[1].image;    // Establezco el sprite mirando hacia la derecha por defecto
+    this.animacionPersonajeCoor=this.sprites[1].coor; // Establezco las coordenadas del sprite mirando hacia la derecha
     
 }
 
@@ -59,6 +54,7 @@ export function Personaje(){
     //-------------------------------------------------------------------------------------------------------------------------
 
     // Método de movimiento
+
     // Mueve al personaje hacia la derecha o izda sumando a X la velocidad en función de la dirección
 
     Personaje.prototype.moverIzda = function () {
@@ -94,10 +90,6 @@ export function Personaje(){
             this.y,                                   // Posición Y del personaje en el canva
             this.tamanioX,                            // Tamaño X del personaje
             this.tamanioY);                           // Tamaño Y del personaje
-    }
-
-    Personaje.prototype.disparar=function(){
-        
     }
 
 

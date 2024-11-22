@@ -1,8 +1,6 @@
-    //-------------------------------------------------------------------------------------------------------------------------
-    //Function para generar las coplisiones con las plataformas
-    //-------------------------------------------------------------------------------------------------------------------------
-
-
+//-------------------------------------------------------------------------------------------------------------------------
+// Function para generar las coplisiones con las plataformas
+//-------------------------------------------------------------------------------------------------------------------------
 
 // Colision enemigos-plataformas
 
@@ -80,6 +78,8 @@ export function colisionPlataformasProta(prota, plataformasArray){
     return colision;
 }
 
+// Colision prota-enemigo
+
 export function colisionProtaEnemigo(prota, enem){
 
     let colision=false;
@@ -105,6 +105,8 @@ export function colisionProtaEnemigo(prota, enem){
 
     return colision;
 }
+
+// Colision disparo-enemigo
 
 export function colisionEnemigoDisparo(enem,disparo){
     let colision=false;

@@ -27,10 +27,3 @@ export function desactivarMovimiento(evt) {
         case 90: xZeta = false; break;
     }
 }
-
-// 
-export function activarDisparo(evt){
-    if(evt.keyCode==90){
-        xZeta=true;
-    }
-}
