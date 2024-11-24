@@ -1,0 +1,20 @@
+Eres un alienígena y tu nave se ha estrellado, tendrás que defenderla de las hordas
+del FBI mientras que tus compañeros alienígenas tratan de repararla. 
+
+------NORMAS---------
+La nave se destruirá después de que 10 agentes del FBI lleguen a ella y perderás la partida.
+Si algún enemigo te toca morirás y perderás la partida.
+
+------CONTROLES-------
+
+Flecha arriba ↑ ----- Mirar hacia arriba
+
+Flecha abajo ↓ ------ Mirar hacia abajo
+
+Flecha derecha  → --- Moverse hacia la derecha
+
+Flecha izquierda ← -- Moverse hacia la izquierda
+
+Espacio ------------- Saltar
+
+Tecla Z ------------- Disparar

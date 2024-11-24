@@ -6,12 +6,12 @@ export function Personaje(){
     this.x=225; // Establecemos su posición tanto X como Y
     this.y=765;
 
-    this.velocidad=3; // Velocidad a la que se moverá, es la cantidad restada a X
-    this.tamanioX=26; // Tamaño X e Y del sprite
+    this.velocidad=3;    // Velocidad a la que se moverá, es la cantidad restada a X
+    this.tamanioX=26;    // Tamaño X e Y del sprite
     this.tamanioY=38;
-    this.enAire=false; // Variable que detectará si el personaje se encuentra en el aire
-    this.gravedad=0.5; // Variable que determina la gravedad, es la cantidad de Y que se restará en la caída del salto
-    this.velSalto=0;   // Variable que servirá para elevar al personaje   
+    this.enAire=false;   // Variable que detectará si el personaje se encuentra en el aire
+    this.gravedad=0.5;   // Variable que determina la gravedad, es la cantidad de Y que se restará en la caída del salto
+    this.velSalto=0;     // Variable que servirá para elevar al personaje   
     this.direccion='izquierda'; // Variable que define hacia donde está mirando o hacia donde miró por última vez
     this.posicion=0;     // Variable posición para intercalar las animaciones
     this.haMuerto=false; // Variable que indica si nuestro personaje está vivo o no
@@ -49,48 +49,48 @@ export function Personaje(){
     
 }
 
-    //-------------------------------------------------------------------------------------------------------------------------
-    // Métodos del personaje
-    //-------------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------------
+// Métodos del personaje
+//-------------------------------------------------------------------------------------------------------------------------
 
-    // Método de movimiento
+// Método de movimiento
 
-    // Mueve al personaje hacia la derecha o izda sumando a X la velocidad en función de la dirección
+// Mueve al personaje hacia la derecha o izda sumando a X la velocidad en función de la dirección
 
-    Personaje.prototype.moverIzda = function () {
-        this.x -= this.velocidad;
-        if (this.x < 0) this.x = 0;
+Personaje.prototype.moverIzda = function () {
+    this.x -= this.velocidad;
+    if (this.x < 0) this.x = 0;
         
-    };
+};
 
-    Personaje.prototype.moverDerecha=function(){
-        this.x += this.velocidad;
-        if (this.x > 420) this.x = 420; //Evita que llegue al final del canva y se salga
+Personaje.prototype.moverDerecha=function(){
+    this.x += this.velocidad;
+    if (this.x > 420) this.x = 420; //Evita que llegue al final del canva y se salga
+}
+
+// Método de salto
+
+Personaje.prototype.salto=function(){
+    if(!this.enAire){      // Comprueba si no está en el aire ya que no queremos más de 1 salto
+        this.enAire=true;  // Pasamos el estado del personaje a enAire
+        this.velSalto=-13; // Cantidad que se restará a la Y que hará ascender al personaje
     }
+}
 
-    // Método de salto
+// Método que dibuja al personaje
 
-    Personaje.prototype.salto=function(){
-        if(!this.enAire){      // Comprueba si no está en el aire ya que no queremos más de 1 salto
-            this.enAire=true;  // Pasamos el estado del personaje a enAire
-            this.velSalto=-13; // Cantidad que se restará a la Y que hará ascender al personaje
-        }
-    }
-
-    // Método que dibuja al personaje
-
-    Personaje.prototype.dibujarProta=function(ctx){
-        ctx.drawImage(
-            this.animacionPersonaje,                  // Imagen del sprite
-            this.animacionPersonajeCoor[this.posicion][0], // Posición X del sprite
-            this.animacionPersonajeCoor[this.posicion][1], // Posición Y del sprite
-            this.tamanioX,                            // Tamaño X del sprite
-            this.tamanioY,                            // Tamaño Y del sprite
-            this.x,                                   // Posición X del personaje en el canva
-            this.y,                                   // Posición Y del personaje en el canva
-            this.tamanioX,                            // Tamaño X del personaje
-            this.tamanioY);                           // Tamaño Y del personaje
-    }
+Personaje.prototype.dibujarProta=function(ctx){
+    ctx.drawImage(
+        this.animacionPersonaje,                  // Imagen del sprite
+        this.animacionPersonajeCoor[this.posicion][0], // Posición X del sprite
+        this.animacionPersonajeCoor[this.posicion][1], // Posición Y del sprite
+        this.tamanioX,                            // Tamaño X del sprite
+        this.tamanioY,                            // Tamaño Y del sprite
+        this.x,                                   // Posición X del personaje en el canva
+        this.y,                                   // Posición Y del personaje en el canva
+        this.tamanioX,                            // Tamaño X del personaje
+        this.tamanioY);                           // Tamaño Y del personaje
+}
 
 
 

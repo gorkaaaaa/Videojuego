@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,19 +8,24 @@
     <link rel="icon" href="assets/icono.png">
     <link rel="stylesheet" href="Juego.css">
     <script type="module" src="juego.js"></script>
-    <style>
-
-    </style>
 </head>
+
 <body >
     <img src="assets/logo.png" width="200px" alt="Alien Hominid">
     <div id="juego-boton-enemigos">
         <p id="numenemigos">Nº enemigos restantes:</p>
         <canvas id="miCanvas" width="450" height="800" style="border:1px solid #000000;"></canvas>
         <div id="boton-enemigos">
-            <input type="submit" id="start" value="">
+            <p> Dificultad fácil</p>
+            <input class="botones" type="submit" id="start-f" value="f">
+            <p> Dificultad media</p>
+            <input class="botones" type="submit" id="start-m" value="m">
+            <p> Dificultad dificil</p>
+            <input class="botones" type="submit" id="start-d" value="d">
             <p id="puntuacion"> Puntuación:</p>
+            <p id="record"> Record de puntuacion:</p>
         </div>
     </div>
 </body>
+
 </html>

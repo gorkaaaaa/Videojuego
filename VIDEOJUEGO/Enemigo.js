@@ -7,7 +7,7 @@ export function Enemigo(){
     // Atributos con el mismo proposito que los de la clase personaje
     this.x=105;
     this.y=20;
-    this.velocidad=(Math.random()*3)+1; // Velocidad aleatoria para que los enemigos se sientan distintos
+    this.velocidad=(Math.random()*3); // Velocidad aleatoria para que los enemigos se sientan distintos
     this.tamanioY=39;
     this.tamanioX=33;
     this.enAire=false;

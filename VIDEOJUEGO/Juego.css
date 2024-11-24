@@ -1,3 +1,8 @@
+*{
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bolder;
+}
+
 body{
     text-align: center;
     background-image:  url("assets/fondo-pagina.webp");
@@ -6,34 +11,42 @@ body{
     background-position: center;
     background-color: #000000;
 }
+
 #juego-boton-enemigos{
     display: flex;
     align-items: flex-start;
     justify-content: center;
     gap: 20px
 }
-#start{
-    width: 180px;
-    height: 70px;
+
+.botones{
+    width: 100px;
+    height: 40px;
     cursor: pointer;
     background-image: url('assets/botonComienzo.png');
     background-size: contain;
     margin-bottom: 10px;
+    font-size: 0px;
 }
+
 #boton-enemigos{
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 p{
     margin: 10px 0;
-    font-size: 14px;
+    font-size: 20px;
     color: aliceblue;
     text-align: center;
+    background-color: rgb(84, 33, 131);
 }
+
 img{
     margin-right: 60px;
 }
+
 #numenemigos{
     margin-top: 650px;
 }
