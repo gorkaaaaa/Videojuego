@@ -1,3 +1,5 @@
+Para poder ejecutarlo hay que usar la extensión live preview de VS porque los scripts son type=module
+
 Eres un alienígena y tu nave se ha estrellado, tendrás que defenderla de las hordas
 del FBI mientras que tus compañeros alienígenas tratan de repararla. 
 
